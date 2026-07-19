@@ -9,7 +9,7 @@ from models import Film, WatchlistEntry
 from services.collection_service import FilmNotFoundError
 
 
-def save_to_watchlist(user_id, film_id):
+def add_to_watchlist(user_id, film_id):
     """
     Save a film to a user's watchlist.
 
@@ -43,19 +43,3 @@ def get_watchlist(user_id):
     Returns:
         list[dict]: List of film dicts with watchlist metadata attached.
     """
-    entries = (
-        WatchlistEntry.query
-        .filter_by(user_id=user_id)
-        .join(Film)
-        .order_by(Film.title.asc())
-        .all()
-    )
-
-    result = []
-    for entry in entries:
-        film_dict = entry.film.to_dict()
-        film_dict["date_added"] = entry.date_added.isoformat()
-        film_dict["public"] = entry.public
-        result.append(film_dict)
-
-    return result
