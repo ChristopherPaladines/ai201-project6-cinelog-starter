@@ -1,5 +1,9 @@
 PR Response Doc — CineLog Watchlist Feature
 
+AI Usage
+
+Used Claude throughout for codebase orientation, working through Comments 1–6, and troubleshooting the rebase and interactive rebase process.
+
 Comment 1 — Rename
 
 What I did: Renamed save_to_watchlist() to add_to_watchlist() in services/watchlist_service.py, and updated the one call site in routes/watchlist/watchlist.py (both the import statement and the function call inside add_film()).
@@ -17,9 +21,9 @@ How I verified: Ran pytest tests/test_watchlist.py -v — all 3 tests passed. Ra
 
 Comment 4 — Default visibility
 
-My position:
-Reasoning:
-Tradeoff acknowledged:
+My position: Keep public=True as the default for WatchlistEntry.public.
+Reasoning: CineLog is explicitly built as a community film-tracking app — the README frames it around sharing, discovering, and building collections with other users. If watchlists defaulted to private, most users would never think to flip a settings toggle, and the app's core social/discovery experience would go largely unused by default. A public default means the community aspect works out of the box, rather than depending on users to opt in to a feature the app is fundamentally designed around.
+Tradeoff acknowledged: The real risk is that some users won't realize their watchlist is visible to others until it's too late — they may add something they'd rather keep private without thinking about visibility in the moment. This is a genuine privacy cost of defaulting to public. However, the model already has a per-entry public field, meaning users aren't locked into an all-or-nothing choice — anyone who cares about privacy can mark individual entries private without losing the benefit of a sensible, community-friendly default for everyone else. The default only needs to work well for the common case, not for every possible user.
 
 Comment 5 — Sort order
 
@@ -32,3 +36,7 @@ Comment 6 — Rebase
 What conflicted:
 How I resolved it:
 How I verified no conflict remains:
+
+PR Description
+
+<!-- Written at the end -->
